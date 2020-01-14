@@ -1,0 +1,81 @@
+/*package whatever //do not write package name here */
+
+import java.io.*;
+
+class GFG {
+    public static void fillMatrix(int[][] a,int r,int c){
+        int x =10;
+        for(int i=0;i<r;i++){
+            for(int j=0;j<c;j++){
+                a[i][j]=x;
+                x++;
+            }
+        }
+    }
+    
+    public static void printMatrix(int[][] a,int r,int c){
+        for(int i=0;i<r;i++){
+            for(int j=0;j<c;j++){
+                System.out.print(a[i][j]+" ");
+            }
+            System.out.println();
+        }
+    }
+    
+    public static void printIndex(int[][] a,int r,int c){
+        for(int i=0;i<r;i++){
+            for(int j=0;j<c;j++){
+                System.out.print(i+","+j+"  ");
+            }
+            System.out.println();
+        }
+    }
+    
+    public static void dfs(int[][] a,int start_i,int start_j,int end_i,int end_j ,int i ,int j){
+        
+        if(i<0 || i>=a.length || j<0 || j>=a[i].length || a[i][j]<0){
+            //error - out of boundary
+            return;
+        }
+        
+        System.out.print(a[i][j]+ " , ");
+        a[i][j]*=-1;
+        
+        if(start_i==i)
+            dfs(a,start_i,start_j,end_i,end_j,i,j+1);//right
+        if(end_j==j)    
+            dfs(a,start_i,start_j,end_i,end_j,i+1,j);//down
+        if(end_i==i)
+            dfs(a,start_i,start_j,end_i,end_j,i,j-1);//left
+        if(start_j==j)
+            dfs(a,start_i,start_j,end_i,end_j,i-1,j);//top
+        
+    }
+    
+    
+	public static void main (String[] args) {
+		int r = 3;
+		int c = 5;
+		//int n = 5;
+		
+		int[][] a =new int[r][c];
+		
+		fillMatrix(a,r,c);
+	  printMatrix(a,r,c);
+	  printIndex(a,r,c);
+	    
+	    for(int x=0;x<(r/2)+1;x++){
+	        
+	        int start_i = x;
+	        int start_j = x;
+	        
+	        int end_i = r-1-x;
+	        int end_j = c-1-x;
+	        
+	        //System.out.println(start_i+","+start_j+"------"+end_i+","+end_j);
+          
+	       dfs(a,start_i,start_j,end_i,end_j,x,x);
+	    }
+	   
+	}
+}
