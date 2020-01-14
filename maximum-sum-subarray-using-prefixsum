@@ -1,0 +1,59 @@
+import java.io.*;
+import java.util.*;
+
+
+class GFG {
+    public static void printArray(int[] a,int i,int j){
+        for(i=0;i<=j;i++){
+            System.out.print(a[i]+",");
+        }
+        System.out.println("-------------------");
+    }
+    
+     public static int calculateSumOfSubArray(int[] a,int i,int j){
+         int sum=0;
+        for(int k=i;k<=j;k++){
+            sum=sum+a[k];
+	         //System.out.print(a[k]+",");
+        }
+        //System.out.println("\n"+sum);
+        
+        return sum;
+    }
+    
+	         
+	         
+	public static void main (String[] args) {
+	 Scanner sc=new Scanner(System.in);
+	 
+	 int n=sc.nextInt();
+	 int[] a = new int[n];
+	 for(int i=0;i<n;i++){
+	     a[i]=sc.nextInt();
+	 }
+	 //System.out.println(Arrays.toString(a));
+	 
+	int[] prefixSum = new int[n];
+	prefixSum[0]=a[0];
+	for(int i=1;i<n;i++){
+	    prefixSum[i]=prefixSum[i-1]+a[i];
+	}
+	
+	System.out.println(Arrays.toString(prefixSum));
+	 
+	int maxsum=Integer.MIN_VALUE;
+	 for(int i=0;i<n;i++){
+	     for(int j=i;j<n;j++){
+	         //int sum = calculateSumOfSubArray(a,i,j);
+	         int sum = prefixSum[j]-prefixSum[i]+a[i];
+	         if(sum>maxsum){
+	             maxsum=sum;
+	         }
+	         
+	     }
+	     
+	 }
+	 
+	 System.out.println(maxsum);
+	}
+}
