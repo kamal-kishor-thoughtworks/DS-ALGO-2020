@@ -1,0 +1,40 @@
+/*package whatever //do not write package name here */
+
+import java.io.*;
+import java.util.*;
+
+class GFG {
+    
+    public static int calculatePrefixSumLength(int[] a, int n){
+        
+        HashMap<Integer,Integer> hm =new HashMap<Integer,Integer>();
+        int len= 0;
+        int preSum = 0;
+        
+        for(int i=0;i<n;i++){
+            preSum=preSum+a[i];
+            
+            if(a[i]==0 && len==0){
+                len=1;
+            }
+            if(preSum==0){
+                len = Math.max(len,i+1);
+            }
+            
+            if(hm.containsKey(preSum)){
+                len = Math.max(len,i-hm.get(preSum));
+            }else{
+                hm.put(preSum,i);
+            }
+        }
+        
+        return len;
+        
+    }
+	public static void main (String[] args) {
+	    int n = 5;
+	    int[] a = {-1,2,-1,-2,1};
+	    
+	   System.out.println(calculatePrefixSumLength(a,n));
+	}
+}
