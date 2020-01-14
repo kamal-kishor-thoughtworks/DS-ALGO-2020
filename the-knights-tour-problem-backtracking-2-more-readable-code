@@ -1,0 +1,154 @@
+package multithreading;
+
+/*KNIGHT TOUR PROBLEM */
+
+import java.io.*;
+import java.util.*;
+
+class KTProblem {
+    public static void fillMatrix(int[][] a,int r,int c){
+        for(int i=0;i<r;i++){
+            for(int j=0;j<c;j++){
+                a[i][j]=-1;
+            }
+        }
+    }
+    
+    public static void printMatrix(int[][] a,int r,int c){
+        for(int i=0;i<r;i++){
+            for(int j=0;j<c;j++){
+                System.out.print(a[i][j]+" ");
+            }
+            System.out.println();
+        }
+    }
+    
+    public static void printIndex(int[][] a,int r,int c){
+        for(int i=0;i<r;i++){
+            for(int j=0;j<c;j++){
+                System.out.print(i+","+j+"  ");
+            }
+            System.out.println();
+        }
+    }
+    
+    //This is DFS2 for backtracking and it shows how to convert the BFS code to more readable format
+    //*********************************************************************************************
+public static boolean dfs2(int[][] a,int i,int j,int endX,int endY,int index,int endIndex){
+        
+        if(i<0 || i>=a.length || j <0 || j>=a[i].length ||a[i][j]>0 ){
+           
+            return false;
+        }
+        
+        //System.out.println(a[i][j]+",");
+        a[i][j]=index;
+        index++;
+        
+        if(index==endIndex){
+            return true;
+        }
+        
+        int xMove[] = {2, 1, -1, -2, -2, -1, 1, 2}; 
+		int yMove[] = {1, 2, 2, 1, -1, -2, -2, -1}; 
+		
+		for (int k = 0; k < 8; k++) { 
+				int next_i = i + xMove[k]; 
+				int next_j = j + yMove[k];
+				boolean found = dfs(a,next_i,next_j,endX,endY,index,endIndex);
+				if (found) { 
+					return true; 
+				}
+			}
+		//This part is called recursing back
+	     a[i][j]=-1;
+	     index--;
+        
+       return false;
+        
+    }
+	
+    public static boolean dfs(int[][] a,int i,int j,int endX,int endY,int index,int endIndex){
+        
+        if(i<0 || i>=a.length || j <0 || j>=a[i].length ||a[i][j]>0 ){
+           
+            return false;
+        }
+        
+        //System.out.println(a[i][j]+",");
+        a[i][j]=index;
+        index++;
+        
+        if(index==endIndex){
+            return true;
+        }
+        
+        boolean found_1 = dfs(a,i-2,j-1,endX,endY,index,endIndex);//Point 1
+        if(found_1){
+            return true;
+        }
+        boolean found_2 = dfs(a,i-1,j-2,endX,endY,index,endIndex);//Point 2
+        if(found_2){
+            return true;
+        }
+        boolean found_3 = dfs(a,i+1,j-2,endX,endY,index,endIndex);//Point 3
+        if(found_3){
+            return true;
+        }
+        boolean found_4 = dfs(a,i+2,j-1,endX,endY,index,endIndex);//Point 4
+        if(found_4){
+            return true;
+        }
+        boolean found_5 = dfs(a,i-2,j+1,endX,endY,index,endIndex);//Point 5
+        if(found_5){
+            return true;
+        }
+        boolean found_6 = dfs(a,i-1,j+2,endX,endY,index,endIndex);//Point 6
+        if(found_6){
+            return true;
+        }
+        boolean found_7 = dfs(a,i+1,j+2,endX,endY,index,endIndex);//Point 7
+        if(found_7){
+            return true;
+        }
+        boolean found_8 = dfs(a,i+2,j+1,endX,endY,index,endIndex);//Point 8
+        if(found_8){
+            return true;
+        }
+       
+        //This part is called recursing back
+       a[i][j]=-1;
+       index--;
+      // System.out.println("B->"+index+ " , ");
+       return false;
+        
+        
+        
+    }
+	public static void main (String[] args) {
+		
+		 int r = 8;
+		 int c = 8;
+		 int[][] a =new int[r][c];
+		 fillMatrix(a,r,c);
+	   printMatrix(a,r,c);
+	   System.out.println("--------------------");
+	   //printIndex(a,r,c);
+	   System.out.println("--------------------");
+	    
+	    int startX = 0;
+	    int startY = r-1;
+	    
+	    int endX = r-1;
+	    int endY = c-1;
+	    
+	    int index = 1;
+	    int endIndex = 64+1;
+	    
+	    System.out.println(dfs2(a,startX,startY,endX,endY,index,endIndex)); 
+	    System.out.println("--------------------");
+	    
+	     printMatrix(a,r,c);
+	}
+	
+}
