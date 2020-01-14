@@ -1,0 +1,124 @@
+/* https://www.geeksforgeeks.org/rat-in-a-maze-backtracking-using-stack/ */
+
+import java.io.*;
+import java.util.*;
+
+class GFG {
+    public static void fillMatrix(int[][] a,int r,int c){
+        int x =10;
+        for(int i=0;i<r;i++){
+            for(int j=0;j<c;j++){
+                a[i][j]=x;
+                x++;
+            }
+        }
+    }
+    
+    public static void printMatrix(int[][] a,int r,int c){
+        for(int i=0;i<r;i++){
+            for(int j=0;j<c;j++){
+                System.out.print(a[i][j]+" ");
+            }
+            System.out.println();
+        }
+    }
+    
+    public static void printIndex(int[][] a,int r,int c){
+        for(int i=0;i<r;i++){
+            for(int j=0;j<c;j++){
+                System.out.print(i+","+j+"  ");
+            }
+            System.out.println();
+        }
+    }
+    
+    public static boolean dfs(int[][] a,int i,int j,int endX,int endY,Stack<String> stack){
+        
+        if(i<0 || i>=a.length || j <0 || j>=a[i].length || a[i][j]<=0 ){
+           
+            return false;
+        }
+        System.out.print(a[i][j]+",");
+        a[i][j]=-1;
+        
+        if(i==endX && j==endY){
+            return true;
+        }
+        
+        boolean r_found = dfs(a,i,j+1,endX,endY,stack);//Right
+        if(r_found){
+            stack.push("Right");
+            return true;
+        }
+        boolean b_found = dfs(a,i+1,j,endX,endY,stack);//Bottom
+        if(b_found){
+            stack.push("Down");
+            return true;
+        }
+        boolean l_found = dfs(a,i,j-1,endX,endY,stack);//Left
+        if(l_found){
+            stack.push("Left");
+            return true;
+        }
+        boolean t_found = dfs(a,i-1,j,endX,endY,stack);//Top
+        if(t_found){
+            stack.push("Up");
+            return true;
+        }
+       
+       a[i][j]=0;
+       return false;
+        
+        
+        
+    }
+	public static void main (String[] args) {
+	  
+		
+		int[][] a ={{1, 0, 0, 0},
+                {1, 1, 1, 1},
+                {1, 1, 0, 0},
+                {1, 1, 1, 1}};
+		 int r = a.length;
+		int c = a[0].length;
+		//fillMatrix(a,r,c);
+	    printMatrix(a,r,c);
+	    System.out.println("--------------------");
+	   // printIndex(a,r,c);
+	    
+	    int startX = 1;
+	    int startY = 1;
+	    
+	    int endX = r-1;
+	    int endY = c-1;
+	    
+	    Stack<String> stack = new Stack<String>();
+	    
+	    System.out.println(dfs(a,startX,startY,endX,endY,stack));
+	    
+	    System.out.println("--------------------");
+	    System.out.println(stack);
+	    System.out.println("--------------------");
+	    
+	     printMatrix(a,r,c);
+	}
+	
+}
+
+/*
+OUTPUT
+
+1 0 0 0 
+1 1 1 1 
+1 1 0 0 
+1 1 1 1 
+--------------------
+1,1,1,1,1,1,1,true
+--------------------
+[Right, Right, Down, Down]
+--------------------
+1 0 0 0 
+1 -1 0 0 
+1 -1 0 0 
+1 -1 -1 -1 
+*/
